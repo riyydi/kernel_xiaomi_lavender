@@ -10,6 +10,7 @@
 #include <linux/fb.h>
 #include <linux/input.h>
 #include <linux/kthread.h>
+#include <media/msm_vidc.h>
 
 unsigned long last_input_time;
 
@@ -228,7 +229,7 @@ static int cpu_notifier_cb(struct notifier_block *nb, unsigned long action,
 		return NOTIFY_OK;
 
 	/* Unboost when the screen is off */
-	if (test_bit(SCREEN_OFF, &b->state)) {
+	if (test_bit(SCREEN_OFF, &b->state) || is_playing_video) {
 		policy->min = read_min_freq(policy);
 		boosting = false;
 		return NOTIFY_OK;

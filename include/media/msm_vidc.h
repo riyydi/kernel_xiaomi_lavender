@@ -22,6 +22,8 @@
 
 #define HAL_BUFFER_MAX 0xb
 
+extern unsigned int is_playing_video;
+
 enum smem_type {
 	SMEM_ION,
 };

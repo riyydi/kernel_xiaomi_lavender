@@ -27,6 +27,8 @@
 
 #define MAX_EVENTS 30
 
+unsigned int is_playing_video;
+
 static int get_poll_flags(void *instance)
 {
 	struct msm_vidc_inst *inst = instance;
@@ -1435,8 +1437,8 @@ void *msm_vidc_open(int core_id, int session_type)
 	inst->debugfs_root =
 		msm_vidc_debugfs_init_inst(inst, core->debugfs_root);
 
-	pr_err("Ratoriku: is video streaming start\n");
-	
+	is_playing_video = 1;
+
 	return inst;
 fail_init:
 	v4l2_fh_del(&inst->event_handler);
@@ -1601,9 +1603,9 @@ int msm_vidc_close(void *instance)
 	}
 
 	kref_put(&inst->kref, close_helper);
-	
-	pr_err("Ratoriku: is video streaming end\n");
-	
+
+	is_playing_video = 0;
+
 	return 0;
 }
 EXPORT_SYMBOL(msm_vidc_close);
